@@ -67,4 +67,4 @@ I build my repositories with `Find` methods that take `ICriteria<T>` classes.  I
 use the `ICriteria<T>.Satisfier` property which is an expression of type `Expression<Func<T,bool>>`
 if my data layer supports LINQ for querying.  
 
-See this [gist](https://gist.github.com/benjaminramey/94212720) for an example repository interface that takes `ICriteria<T>`.
+See this [gist](https://gist.github.com/benjaminramey/9421272) for an example repository interface that takes `ICriteria<T>`.
