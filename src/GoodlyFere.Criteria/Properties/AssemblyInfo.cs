@@ -41,9 +41,9 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("GoodlyFere.Criteria")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Basic set of specification pattern interfaces and base classes.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Ben Ramey")]
 [assembly: AssemblyProduct("GoodlyFere.Criteria")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]

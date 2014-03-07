@@ -12,6 +12,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodlyFere.Criteria", "Good
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodlyFere.Criteria.Tests", "GoodlyFere.Criteria.Tests\GoodlyFere.Criteria.Tests.csproj", "{63B5397C-83D4-433F-B9C7-4E588F4AF2B4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{86B1B0FD-CE17-45E8-88E8-88338CFF5360}"
+	ProjectSection(SolutionItems) = preProject
+		GoodlyFere.Criteria\GoodlyFere.Criteria.nuspec = GoodlyFere.Criteria\GoodlyFere.Criteria.nuspec
+		..\LICENSE = ..\LICENSE
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
