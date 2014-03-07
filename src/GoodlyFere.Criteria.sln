@@ -1,16 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodlyFere.Criteria", "GoodlyFere.Criteria.csproj", "{80069D23-B511-4FCA-ABA5-F5BAF62A0BD2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodlyFere.Criteria.Tests", "..\GoodlyFere.Criteria.Tests\GoodlyFere.Criteria.Tests.csproj", "{63B5397C-83D4-433F-B9C7-4E588F4AF2B4}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DD7C92CF-717E-4377-A588-1E98F6BDCA79}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodlyFere.Criteria", "GoodlyFere.Criteria\GoodlyFere.Criteria.csproj", "{80069D23-B511-4FCA-ABA5-F5BAF62A0BD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodlyFere.Criteria.Tests", "GoodlyFere.Criteria.Tests\GoodlyFere.Criteria.Tests.csproj", "{63B5397C-83D4-433F-B9C7-4E588F4AF2B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
