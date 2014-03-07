@@ -2,7 +2,7 @@
 
 // ------------------------------------------------------------------------------------------------------------------
 //  <copyright file="NotCriteria.cs">
-// GoodlyFere.Criteria
+//  GoodlyFere.Criteria
 //  
 //  Copyright (C) 2014 Ben Ramey
 //  
@@ -54,7 +54,7 @@ namespace GoodlyFere.Criteria
         {
             get
             {
-                throw new NotImplementedException();
+                return Operand.Not().Satisfier;
             }
         }
 
