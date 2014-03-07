@@ -16,7 +16,7 @@ For example, take two `Invoice` specifications:
         {
             get
             {
-                return invoice => invoice.DueDate > DateTime.Now;
+                return invoice => invoice.DueDate < DateTime.Now;
             }
         }
 
