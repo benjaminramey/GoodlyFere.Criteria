@@ -5,7 +5,7 @@ General library of specification pattern interfaces and classes to build criteri
 ## Example Usage
 
 Encase your business rules in criteria classes (specifications).  I recommend making
-on criteria class for one business rule.  You can can combine these rules for more
+one criteria class for one business rule.  You can can combine these rules for more
 complex logic.
 
 For example, take two `Invoice` specifications:
