@@ -1,25 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DD7C92CF-717E-4377-A588-1E98F6BDCA79}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodlyFere.Criteria", "GoodlyFere.Criteria\GoodlyFere.Criteria.csproj", "{80069D23-B511-4FCA-ABA5-F5BAF62A0BD2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodlyFere.Criteria.Tests", "GoodlyFere.Criteria.Tests\GoodlyFere.Criteria.Tests.csproj", "{63B5397C-83D4-433F-B9C7-4E588F4AF2B4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{86B1B0FD-CE17-45E8-88E8-88338CFF5360}"
 	ProjectSection(SolutionItems) = preProject
-		GoodlyFere.Criteria\GoodlyFere.Criteria.nuspec = GoodlyFere.Criteria\GoodlyFere.Criteria.nuspec
+		GoodlyFere.Criteria.nuspec = GoodlyFere.Criteria.nuspec
 		..\LICENSE = ..\LICENSE
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodlyFere.Criteria.NET35", "GoodlyFere.Criteria.NET35\GoodlyFere.Criteria.NET35.csproj", "{E0B6A1C3-6198-4226-BA83-08D752309F97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FDA188DB-A62C-42B2-9A58-78397A3AD63A}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GoodlyFere.Criteria")]
 [assembly: AssemblyDescription(".NET 3.5 version of the GoodlyFere.Criteria code.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Ben Ramey")]
 [assembly: AssemblyProduct("GoodlyFere.Criteria")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
