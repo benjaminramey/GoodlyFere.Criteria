@@ -70,7 +70,12 @@ namespace GoodlyFere.Criteria
 
         #endregion
 
+#if NET35
+        public class ParameterRebinder : Visitors.ExpressionVisitor
+#endif
+#if NET45
         public class ParameterRebinder : ExpressionVisitor
+#endif
         {
             #region Constants and Fields
 
