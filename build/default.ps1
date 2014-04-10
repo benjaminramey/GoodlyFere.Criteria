@@ -1,21 +1,25 @@
 properties {
-  $solution_name = "GoodlyFere.Criteria"
-  $version = "1.0.0.0"
-  $build_version = "$version-" + (git describe --tags --long).split('-')[1]
-  $run_tests = $true
+	$solution_name = "GoodlyFere.Criteria"
+	$package_dlls = @{
+		"net45" = "$solution_name\bin\Release\$solution_name.dll"
+		"net35" = "$solution_name.NET35\bin\Release\$solution_name.NET35.dll"
+	}
+	$version = "1.0.0.0"
+	$build_version = "$version-" + (git describe --tags --long).split('-')[1]
+	$run_tests = $true
   
-  $base_dir  = resolve-path ..\
-  $build_dir = "$base_dir\build"
-  $output_dir = "$build_dir\output"
-  $package_dir = "$build_dir\package"  
-  $tools_dir = "$build_dir\Tools"
-  $src_dir = "$build_dir\src"
+	$base_dir  = resolve-path ..\
+	$build_dir = "$base_dir\build"
+	$output_dir = "$build_dir\output"
+	$package_dir = "$build_dir\package"  
+	$tools_dir = "$build_dir\Tools"
+	$src_dir = "$build_dir\src"
   
-  $sln_file = "$src_dir\$solution_name.sln"
-  $xunit_console = "$tools_dir\xunit.console.clr4.exe"
+	$sln_file = "$src_dir\$solution_name.sln"
+	$xunit_console = "$tools_dir\xunit.console.clr4.exe"
 }
 
-Framework "4.5"
+Framework "4.0"
 
 task default -depends Package
 
@@ -50,15 +54,17 @@ task Test -depends Compile -precondition { return $run_tests } {
 }
 
 task Package -depends Compile, Test {
-	cp "$nuget_spec_file" "$package_dir"
+	cp "$nuspec_file" "$package_dir"
 	
 	mkdir "$package_dir\lib"
-
-  $spec_files = @(gci $packageinfo_dir "*.nuspec" -Recurse)
-
-  foreach ($spec in @($spec_files)) {
-	$dir =  $($spec.Directory)
-	cd $dir
-    Exec { nuget pack -o $release_dir -Prop Configuration=Release -Symbols } "nuget pack failed."
-  }
+	foreach ($k in $package_dlls.Keys) {
+		$path = "$src_dir\" + $package_dlls.Item($k)
+		cp "$path" "$package_dir\lib"
+	}
+	
+	$spec = [xml](get-content "$package_dir\$nuspec_file")
+	$spec.package.metadata.version = ([string]$spec.package.metadata.version).replace("{Version}", $build_version)
+	$spec.Save("$package_dir\$nuspec_file")
+	
+	exec { nuget pack "$package_dir\$nuspec_file" }
 }
