@@ -1,11 +1,12 @@
 properties {
 	$solution_name = "GoodlyFere.Criteria"
+	$nuspec_file_name = "$solution_name.nuspec"
 	$package_dlls = @{
 		"net45" = "$solution_name\bin\Release\$solution_name.dll"
-		"net35" = "$solution_name.NET35\bin\Release\$solution_name.NET35.dll"
+		"net35" = "$solution_name.NET35\bin\Release\$solution_name.dll"
 	}
-	$version = "1.0.0.0"
-	$build_version = "$version-" + (git describe --tags --long).split('-')[1]
+	$version = "1.0.0"
+	$build_version = "$version." + (git describe --tags --long).split('-')[1]
 	$run_tests = $true
   
 	$base_dir  = resolve-path ..\
@@ -15,7 +16,6 @@ properties {
 	$tools_dir = "$build_dir\Tools"
   
 	$sln_file = "$src_dir\$solution_name.sln"
-	$nuspec_file = "$src_dir\$solution_name.nuspec"
 	$xunit_console = "$tools_dir\xunit.console.clr4.exe"
 }
 
@@ -59,20 +59,28 @@ task Test -depends Compile -precondition { return $run_tests } {
 }
 
 task Package -depends Compile, Test {
-	cp "$nuspec_file" "$package_dir"
+	cp "$src_dir\$nuspec_file_name" "$package_dir"
 	
 	mkdir "$package_dir\lib"
 	foreach ($k in $package_dlls.Keys) {
-		cd $k.Directory
-		$path = "$src_dir\" + $package_dlls.Item($k)
-		cp "$path" "$package_dir\lib"
+		$file = $package_dlls[$k]
+		$path = "$src_dir\" + $file
+		mkdir "$package_dir\lib\$k"
+		cp "$path" "$package_dir\lib\$k"
 	}
 	
 	cd $base_dir
 	
-	$spec = [xml](get-content "$package_dir\$nuspec_file")
-	$spec.package.metadata.version = ([string]$spec.package.metadata.version).replace("{Version}", $build_version)
-	$spec.Save("$package_dir\$nuspec_file")
+	$spec = [xml](get-content "$package_dir\$nuspec_file_name")
+	$spec.package.metadata.version = $build_version
+	$spec.Save("$package_dir\$nuspec_file_name")
 	
-	exec { nuget pack "$package_dir\$nuspec_file" }
+	exec { nuget pack "$package_dir\$nuspec_file_name" -o $build_dir }
+}
+
+task Push -depends Package {
+	cd $build_dir
+	$package_name = gci *.nupkg
+	nuget delete $solution_name $build_version -NonInteractive
+	exec { nuget push $package_name }
 }
