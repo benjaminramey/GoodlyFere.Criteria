@@ -9,13 +9,13 @@ properties {
 	$run_tests = $true
   
 	$base_dir  = resolve-path ..\
+	$src_dir = "$base_dir\src"
 	$build_dir = "$base_dir\build"
-	$output_dir = "$build_dir\output"
 	$package_dir = "$build_dir\package"  
 	$tools_dir = "$build_dir\Tools"
-	$src_dir = "$build_dir\src"
   
 	$sln_file = "$src_dir\$solution_name.sln"
+	$nuspec_file = "$src_dir\$solution_name.nuspec"
 	$xunit_console = "$tools_dir\xunit.console.clr4.exe"
 }
 
@@ -23,28 +23,27 @@ Framework "4.0"
 
 task default -depends Package
 
-task Clean {
+task Clean -depends Init {
 	# remove build/package folders
-	if (Test-Path $output_dir) { ri -force -recurse $output_dir }
 	if (Test-Path $package_dir) { ri -force -recurse $package_dir }
 	
 	# clean project builds
 	$projFiles = @(gci $src_dir "*.csproj" -Recurse)
 	foreach ($pf in @($projFiles)) {
+		cd $pf.Directory
 		exec { msbuild $pf "/t:Clean" } "msbuild clean failed."
 	}
-}
-
-task Init -depends Clean {
-	cls
 	
+	cd $base_dir
 	# recreate build/package folders
-	mkdir @($package_dir, $output_dir) | out-null
-	
-    #UpdateVersion
+	mkdir @($package_dir) | out-null
 }
 
-task Compile -depends Init {
+task Init {
+	cls
+}
+
+task Compile -depends Clean {
 	exec { msbuild $sln_file "/p:Configuration=Release" } "msbuild (release) failed."
 }
 
@@ -52,8 +51,11 @@ task Test -depends Compile -precondition { return $run_tests } {
 	$test_dlls = @(gci $src_dir "*.Tests.dll" -Recurse)
 	
 	foreach ($dll in @($test_dlls)) {
+		cd $dll.Directory
 		exec { & $xunit_console "$dll" } "xunit failed."
 	}
+	
+	cd $base_dir
 }
 
 task Package -depends Compile, Test {
@@ -61,9 +63,12 @@ task Package -depends Compile, Test {
 	
 	mkdir "$package_dir\lib"
 	foreach ($k in $package_dlls.Keys) {
+		cd $k.Directory
 		$path = "$src_dir\" + $package_dlls.Item($k)
 		cp "$path" "$package_dir\lib"
 	}
+	
+	cd $base_dir
 	
 	$spec = [xml](get-content "$package_dir\$nuspec_file")
 	$spec.package.metadata.version = ([string]$spec.package.metadata.version).replace("{Version}", $build_version)
