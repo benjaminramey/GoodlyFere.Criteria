@@ -29,7 +29,10 @@ task Clean {
 	if (Test-Path $package_dir) { ri -force -recurse $package_dir }
 	
 	# clean project builds
-	exec { msbuild $sln_file "/t:Clean" } "msbuild clean failed."
+	$projFiles = @(gci $src_dir "*.csproj" -Recurse)
+	foreach ($pf in @($projFiles)) {
+		exec { msbuild $pf "/t:Clean" } "msbuild clean failed."
+	}
 }
 
 task Init -depends Clean {
