@@ -71,5 +71,5 @@ See this [gist](https://gist.github.com/benjaminramey/9421272) for an example re
 parameters for the Find methods.
 
 ## Version History
-- 1.0.1.0: Added .NET 3.5 assembly to nuget package
+- 1.0.0.6: Added .NET 3.5 assembly to nuget package
 - 1.0.0.0: initial release, base set of criteria
