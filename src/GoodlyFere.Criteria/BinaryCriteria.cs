@@ -44,14 +44,5 @@ namespace GoodlyFere.Criteria
         public ICriteria<T> Right { get; set; }
 
         #endregion
-
-        #region Public Methods
-
-        public override void Accept(ICriteriaVisitor<T> visitor)
-        {
-            visitor.Visit(this);
-        }
-
-        #endregion
     }
 }

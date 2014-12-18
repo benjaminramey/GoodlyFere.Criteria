@@ -40,6 +40,8 @@ namespace GoodlyFere.Criteria
     {
         #region Public Methods
 
+        void Visit(ICriteria<T> criteria);
+
         void Visit(BinaryCriteria<T> criteria);
 
         void Visit(UnaryCriteria<T> criteria);

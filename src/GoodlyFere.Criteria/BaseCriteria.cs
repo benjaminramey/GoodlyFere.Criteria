@@ -66,7 +66,10 @@ namespace GoodlyFere.Criteria
 
         #region Public Methods
 
-        public abstract void Accept(ICriteriaVisitor<T> visitor);
+        public virtual void Accept(ICriteriaVisitor<T> visitor)
+        {
+            visitor.Visit(this);
+        }
 
         public virtual bool IsNotSatisfiedBy(T item)
         {
