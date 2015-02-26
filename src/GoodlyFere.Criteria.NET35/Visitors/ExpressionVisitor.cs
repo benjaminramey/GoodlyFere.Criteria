@@ -46,7 +46,7 @@ namespace GoodlyFere.Criteria.Visitors
     {
         #region Methods
 
-        protected virtual Expression Visit(Expression exp)
+        public virtual Expression Visit(Expression exp)
         {
             if (exp == null)
             {

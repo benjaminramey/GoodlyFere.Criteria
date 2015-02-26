@@ -43,6 +43,7 @@ namespace GoodlyFere.Criteria
         #region Constants and Fields
 
         private Func<T, bool> _compiledSatisfier;
+        private bool _stringifying;
 
         #endregion
 
@@ -85,13 +86,24 @@ namespace GoodlyFere.Criteria
         {
             if (IsNotSatisfiedBy(item))
             {
-                throw new SpecificationException(GetType(), item == null ? "null" : item.ToString());
+                throw new CriteriaException(GetType(), item == null ? "null" : item.ToString());
             }
         }
 
         public override string ToString()
         {
-            return string.Format("{0}: {1}", typeof(T).Name, Satisfier);
+            // if a variable of the criteria is used in the expression
+            // ToString will infinitely recurse
+            if (_stringifying)
+            {
+                return base.ToString();
+            }
+
+            _stringifying = true;
+            string str = string.Format("{0}: {1}", typeof(T).Name, Satisfier);
+            _stringifying = false;
+
+            return str;
         }
 
         #endregion

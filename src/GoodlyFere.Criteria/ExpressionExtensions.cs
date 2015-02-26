@@ -38,83 +38,65 @@ using System.Linq.Expressions;
 
 namespace GoodlyFere.Criteria
 {
-    public static class ExpressionExtension
+    public static class ExpressionExtensions
     {
         #region Public Methods
 
         public static Expression<Func<T, bool>> And<T>(
-            this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
+            this Expression<Func<T, bool>> first,
+            Expression<Func<T, bool>> second)
         {
-            return first.Compose(second, Expression.AndAlso);
-        }
-
-        public static Expression<T> Compose<T>(
-            this Expression<T> first, Expression<T> second, Func<Expression, Expression, Expression> merge)
-        {
-            // build parameter map (from parameters of second to parameters of first)
-            var map = first.Parameters.Select((f, i) => new { f, s = second.Parameters[i] })
-                           .ToDictionary(p => p.s, p => p.f);
-
-            // replace parameters in the second lambda expression with parameters from the first
-            var secondBody = ParameterRebinder.ReplaceParameters(map, second.Body);
-
-            // apply composition of lambda expression bodies to parameters from the first expression
-            return Expression.Lambda<T>(merge(first.Body, secondBody), first.Parameters);
+            return Merge(first, second, Expression.AndAlso);
         }
 
         public static Expression<Func<T, bool>> Or<T>(
-            this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
+            this Expression<Func<T, bool>> first,
+            Expression<Func<T, bool>> second)
         {
-            return first.Compose(second, Expression.OrElse);
+            return Merge(first, second, Expression.OrElse);
+        }
+
+        public static Expression<Func<T, bool>> Merge<T>(
+            Expression<Func<T, bool>> left,
+            Expression<Func<T, bool>> right,
+            Func<Expression, Expression, Expression> mergeMethod)
+        {
+            ParameterExpression paramExpression = Expression.Parameter(typeof(T), "arg");
+
+            var leftReplacer = new ReplaceExpressionVisitor(left.Parameters[0], paramExpression);
+            var newLeft = leftReplacer.Visit(left.Body);
+
+            var rightReplacer = new ReplaceExpressionVisitor(right.Parameters[0], paramExpression);
+            var newRight = rightReplacer.Visit(right.Body);
+            
+            // apply composition of lambda expression bodies to parameters from the first expression
+            return Expression.Lambda<Func<T, bool>>(mergeMethod(newLeft, newRight), paramExpression);
         }
 
         #endregion
 
 #if NET35
-        public class ParameterRebinder : Visitors.ExpressionVisitor
+        public class ReplaceExpressionVisitor : Visitors.ExpressionVisitor
 #endif
 #if NET45
-        public class ParameterRebinder : ExpressionVisitor
+        public class ReplaceExpressionVisitor : ExpressionVisitor
 #endif
         {
-            #region Constants and Fields
+            private readonly Expression _oldValue;
+            private readonly Expression _newValue;
 
-            private readonly Dictionary<ParameterExpression, ParameterExpression> map;
-
-            #endregion
-
-            #region Constructors and Destructors
-
-            public ParameterRebinder(Dictionary<ParameterExpression, ParameterExpression> map)
+            public ReplaceExpressionVisitor(Expression oldValue, Expression newValue)
             {
-                this.map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
+                _newValue = newValue;
+                _oldValue = oldValue;
             }
 
-            #endregion
-
-            #region Public Methods
-
-            public static Expression ReplaceParameters(
-                Dictionary<ParameterExpression, ParameterExpression> map, Expression exp)
+            public override Expression Visit(Expression node)
             {
-                return new ParameterRebinder(map).Visit(exp);
+                if (node == _oldValue)
+                    return _newValue;
+                return base.Visit(node);
             }
-
-            #endregion
-
-            #region Methods
-
-            protected override Expression VisitParameter(ParameterExpression p)
-            {
-                ParameterExpression replacement;
-                if (map.TryGetValue(p, out replacement))
-                {
-                    p = replacement;
-                }
-                return base.VisitParameter(p);
-            }
-
-            #endregion
         }
     }
 }

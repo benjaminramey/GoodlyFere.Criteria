@@ -20,6 +20,7 @@ namespace GoodlyFere.Criteria.Tests
             {
                 return new[]
                 {
+                    new[] { new FakeCriteria2("sally").And(new FakeCriteria2("mary")) },
                     new[] { new FakeCriteria(s => s.Contains("bob")) },
                     new[] { new FakeCriteria(s => s.StartsWith("bob") && s != null) },
                     new[] { new FakeCriteria(s => s == "sam") },
@@ -39,6 +40,24 @@ namespace GoodlyFere.Criteria.Tests
             string str = crit.ToString();
 
             str.Should().Be(string.Format("String: {0}", expected));
+        }
+    }
+
+    internal class FakeCriteria2 : BaseCriteria<string>
+    {
+        private readonly string _compareTo;
+
+        public FakeCriteria2(string compareTo)
+        {
+            _compareTo = compareTo;
+        }
+
+        public override Expression<Func<string, bool>> Satisfier
+        {
+            get
+            {
+                return s => s == _compareTo;
+            }
         }
     }
 

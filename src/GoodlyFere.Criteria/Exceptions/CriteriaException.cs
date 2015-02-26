@@ -36,7 +36,7 @@ using System.Linq;
 
 namespace GoodlyFere.Criteria.Exceptions
 {
-    public class SpecificationException : Exception
+    public class CriteriaException : Exception
     {
         #region Constants and Fields
 
@@ -47,20 +47,20 @@ namespace GoodlyFere.Criteria.Exceptions
 
         #region Constructors and Destructors
 
-        public SpecificationException(Type criteriaType, string value)
+        public CriteriaException(Type criteriaType, string value)
         {
             _criteriaType = criteriaType;
             _value = value;
         }
 
-        public SpecificationException(Type criteriaType, string value, string message)
+        public CriteriaException(Type criteriaType, string value, string message)
             : base(message)
         {
             _criteriaType = criteriaType;
             _value = value;
         }
 
-        public SpecificationException(Type criteriaType, string value, string message, Exception innerException)
+        public CriteriaException(Type criteriaType, string value, string message, Exception innerException)
             : base(message, innerException)
         {
             _criteriaType = criteriaType;
