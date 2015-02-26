@@ -67,11 +67,6 @@ namespace GoodlyFere.Criteria
             visitor.Visit(this);
         }
 
-        public override string ToString()
-        {
-            return string.Concat("NOT(", Operand.ToString(), ")");
-        }
-
         #endregion
     }
 }

@@ -20,20 +20,21 @@ namespace GoodlyFere.Criteria.Tests
             {
                 return new[]
                 {
-                    new Expression<Func<string, bool>>[] { s => s.Contains("bob") },
-                    new Expression<Func<string, bool>>[] { s => s.StartsWith("bob") && s != null },
-                    new Expression<Func<string, bool>>[] { s => s == "sam" },
-                    new Expression<Func<string, bool>>[] { s => s != "joe" && s.EndsWith("alfred") || s == null },
+                    new[] { new FakeCriteria(s => s.Contains("bob")) },
+                    new[] { new FakeCriteria(s => s.StartsWith("bob") && s != null) },
+                    new[] { new FakeCriteria(s => s == "sam") },
+                    new[] { new FakeCriteria(s => s != "joe" && s.EndsWith("alfred") || s == null) },
+                    new[] { new FakeCriteria(s => s != "joe").And(new FakeCriteria(s => s.EndsWith("alfred"))) },
+                    new[] { new FakeCriteria(s => s != "joe").And(new FakeCriteria(s => s.EndsWith("alfred"))).Or(new FakeCriteria(s => s == null)) },
                 };
             }
         }
 
         [Theory]
         [PropertyData("Expressions")]
-        public void ToString_IsCorrect(Expression<Func<string, bool>> expr)
+        public void ToString_IsCorrect(ICriteria<string> crit)
         {
-            var crit = new FakeCriteria(expr);
-            string expected = expr.ToString();
+            string expected = crit.Satisfier.ToString();
 
             string str = crit.ToString();
 

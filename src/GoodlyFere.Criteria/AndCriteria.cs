@@ -68,11 +68,6 @@ namespace GoodlyFere.Criteria
             visitor.Visit(this);
         }
 
-        public override string ToString()
-        {
-            return string.Concat(Left.ToString(), " AND ", Right.ToString());
-        }
-
         #endregion
     }
 }
