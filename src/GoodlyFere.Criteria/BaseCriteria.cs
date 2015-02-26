@@ -89,6 +89,11 @@ namespace GoodlyFere.Criteria
             }
         }
 
+        public override string ToString()
+        {
+            return string.Format("{0}: {1}", typeof(T).Name, Satisfier);
+        }
+
         #endregion
     }
 }
