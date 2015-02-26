@@ -45,7 +45,7 @@ namespace GoodlyFere.Criteria
         public static Expression<Func<T, bool>> And<T>(
             this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
         {
-            return first.Compose(second, Expression.And);
+            return first.Compose(second, Expression.AndAlso);
         }
 
         public static Expression<T> Compose<T>(
@@ -65,7 +65,7 @@ namespace GoodlyFere.Criteria
         public static Expression<Func<T, bool>> Or<T>(
             this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
         {
-            return first.Compose(second, Expression.Or);
+            return first.Compose(second, Expression.OrElse);
         }
 
         #endregion
