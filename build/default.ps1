@@ -5,7 +5,7 @@ properties {
 		"net45" = "$solution_name\bin\Release\$solution_name.dll"
 		"net35" = "$solution_name.NET35\bin\Release\$solution_name.dll"
 	}
-	$version = "1.0.2"
+	$version = "1.0.3"
 	$build_version = "$version." + (git describe --tags --long).split('-')[1]
 	$run_tests = $true
   
