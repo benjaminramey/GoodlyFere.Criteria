@@ -71,6 +71,7 @@ See this [gist](https://gist.github.com/benjaminramey/9421272) for an example re
 parameters for the Find methods.
 
 ## Version History
+- 1.1.0.0: refactor parameter rebinding, add tests, fix ToString infinite recursion bug
 - 1.0.3.0: override of ToString method in BaseCriteria
 - 1.0.2.0: implemented Accept method in BaseCriteria
 - 1.0.0.6: Added .NET 3.5 assembly to nuget package
