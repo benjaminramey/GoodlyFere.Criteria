@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/benjaminramey/GoodlyFere.Criteria</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Basic set of specification pattern interfaces and base classes.</description>
-    <releaseNotes>Add .NET 3.5 assembly.</releaseNotes>
+    <releaseNotes>Added override of ToString method in BaseCriteria.</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>specification criteria</tags>
   </metadata>
