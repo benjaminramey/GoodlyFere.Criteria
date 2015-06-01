@@ -54,7 +54,7 @@ namespace GoodlyFere.Criteria
         {
             get
             {
-                return Operand.Not().Satisfier;
+                return Operand.Satisfier.Not();
             }
         }
 

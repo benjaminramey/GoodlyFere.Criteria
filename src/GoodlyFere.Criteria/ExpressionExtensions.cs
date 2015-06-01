@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 
 #endregion
 
@@ -56,6 +57,11 @@ namespace GoodlyFere.Criteria
             return Merge(first, second, Expression.OrElse);
         }
 
+        public static Expression<Func<T, bool>> Not<T>(this Expression<Func<T, bool>> toBeNegated)
+        {
+            return Expression.Lambda<Func<T, bool>>(Expression.Not(toBeNegated.Body), toBeNegated.Parameters);
+        }
+
         public static Expression<Func<T, bool>> Merge<T>(
             Expression<Func<T, bool>> left,
             Expression<Func<T, bool>> right,
@@ -68,7 +74,7 @@ namespace GoodlyFere.Criteria
 
             var rightReplacer = new ReplaceExpressionVisitor(right.Parameters[0], paramExpression);
             var newRight = rightReplacer.Visit(right.Body);
-            
+
             // apply composition of lambda expression bodies to parameters from the first expression
             return Expression.Lambda<Func<T, bool>>(mergeMethod(newLeft, newRight), paramExpression);
         }
@@ -82,8 +88,8 @@ namespace GoodlyFere.Criteria
         public class ReplaceExpressionVisitor : ExpressionVisitor
 #endif
         {
-            private readonly Expression _oldValue;
             private readonly Expression _newValue;
+            private readonly Expression _oldValue;
 
             public ReplaceExpressionVisitor(Expression oldValue, Expression newValue)
             {
@@ -94,7 +100,9 @@ namespace GoodlyFere.Criteria
             public override Expression Visit(Expression node)
             {
                 if (node == _oldValue)
+                {
                     return _newValue;
+                }
                 return base.Visit(node);
             }
         }
